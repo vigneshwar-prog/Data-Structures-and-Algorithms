@@ -60,7 +60,7 @@ public class Floyd {
             for ( j=0; j<V; ++j) 
             { 
                 if (dist[i][j]==Integer.MAX_VALUE) 
-                    System.out.print("INF "); 
+                    System.out.print("No Path Exist"); 
                 else
                     System.out.print(dist[i][j]+"   "); 
             } 
