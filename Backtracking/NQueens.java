@@ -1,11 +1,7 @@
 import java.util.*;
 
 public class NQueens {
-
-    int LeftD = new int[10];
-    int RightD = new int[10];
-    
-    public static CanFillRow(int board[][], int Row,int N)
+    public static boolean CanFillRow(int board[][], int Row,int N)
     {
         for(int i =0 ;i<N;i++)
         {
@@ -13,7 +9,7 @@ public class NQueens {
         }
         return true;
     }
-    public static CanFillCol(int board[][], int Col,int N)
+    public static boolean CanFillCol(int board[][], int Col,int N)
     {
         for(int i =0 ;i<N;i++)
         {
@@ -21,20 +17,40 @@ public class NQueens {
         }
         return true;
     }
-    public static boolean Solve(int board[][],int N)
+    public static boolean canFillLD(int r,int c,ArrayList<Integer> LD)
     {
+        if(LD.contains(r+c)) return false;
+        return true;
+    }
+    public static boolean canFillRD(int r,int c,int N,ArrayList<Integer> RD)
+    {
+        if(RD.contains(c-r+N-1)) return false;
+        return true;
+    }
+    public static boolean Solve(int board[][],int N,ArrayList<Integer> LD,ArrayList<Integer> RD,int count)
+    {
+        if(count == N)
+        {
+            return true;
+        }
         for(int i=0;i<N;i++)
         {
             for(int j=0;j<N;j++)
             {
-                if(CanFillRow(board,i,N) && CanFillCol(board,j,N) && canFillLD(board,i,j,N) && canFillRD(board,i,j,N)){
+                if(CanFillRow(board,i,N) && CanFillCol(board,j,N) && canFillLD(i,j,LD) && canFillRD(i,j,N,RD)){
                     board[i][j] = 1;
+                    count++;
+                    LD.add(i+j);
+                    RD.add(j-i+N-1);
                     
-                    if(Solve(board,N)){
+                    if(Solve(board,N,LD,RD,count)){
                         return true;
                     }
                     else{
                         board[i][j] = 0;
+                        count--;
+                        LD.remove(LD.size()-1);
+                        RD.remove(RD.size()-1);
                     }
                 }
             }
@@ -45,16 +61,22 @@ public class NQueens {
         
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt();
+         ArrayList<Integer> LD = new ArrayList<Integer>();
+         ArrayList<Integer> RD = new ArrayList<Integer>();
         int Board[][] = new int[N][N];
         for(int i=0;i<N;i++)
         {
             Arrays.fill(Board[i],0);
         }
-        if(Solve(Board,N)){
-            System.out.print("Solved");
+        Solve(Board,N,LD,RD,0);
+        for(int i=0;i<N;i++)
+        {
+            for(int j=0;j<N;j++)
+            {
+                System.out.print(Board[i][j]+" ");
+            }
+            System.out.println("");
         }
-        else{
-            System.out.print("Not Solved");
-        }
+        
     }
 }
