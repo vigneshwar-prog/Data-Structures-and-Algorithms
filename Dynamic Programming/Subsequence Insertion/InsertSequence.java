@@ -25,14 +25,6 @@ public class InsertSequence {
                 }
             }
         }
-        // for(int i=0;i<=len1;i++)
-        // {
-        //     for(int j=0;j<=len2;j++)
-        //     {
-        //         System.out.print(mat[i][j]+" ");
-        //     }
-        //     System.out.println("");
-        // }
         int len = mat[len1][len2];
         System.out.print(len1 - len);
     }
